@@ -9,8 +9,8 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Letícia Werneck">
     <meta property="og:description" content="Acesso: Pacote Pêssego">
-    <meta property="og:image" content="https://raw.githubusercontent.com/lewerneck/b7lq-pessego/main/P%C3%AAssego.png"> <!-- Substitua URL_da_Imagem pela URL da imagem desejada -->
-    <meta property="og:url" content="lewerneck.github.io/b7lq-pessego"> <!-- Substitua URL_do_Site pela URL da página -->
+    <meta property="og:image" content="https://raw.githubusercontent.com/lewerneck/b7lq-pessego/main/P%C3%AAssego.png">
+    <meta property="og:url" content="lewerneck.github.io/b7lq-pessego">
     <meta property="og:type" content="website">
 
     <style>
@@ -50,12 +50,12 @@
             }
         }
         .button-telegram {
-            background-color: #be0c88; /* Cor azul do ícone do Telegram */
-            box-shadow: 0 0 15px #be0c88; /* Sombra azul do ícone do Telegram */
-            animation: pulse 1.5s infinite; /* Adicionando a animação de pulsação */
+            background-color: #be0c88;
+            box-shadow: 0 0 15px #be0c88;
+            animation: pulse 1.5s infinite;
         }
         .button-telegram:hover {
-            background-color: #be0c88; /* Cor azul escuro quando hover */
+            background-color: #be0c88;
         }
 
         img {
@@ -67,8 +67,8 @@
 
         .custom-text {
             color: #be0c88;
-            font-size: 24px; /* Tamanho do texto, ajuste conforme necessário */
-            margin-top: 20px; /* Espaço entre a imagem e o texto */
+            font-size: 24px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -95,15 +95,17 @@
             fbq('init', '424744653371009');
             fbq('track', 'PageView_Clientes');
 
-            // Função para definir um cookie
-            function setCookie(name, value, days) {
+            // Função para definir um cookie com informações adicionais
+            function setCookieWithProduct(name, product, value, days) {
                 var expires = "";
                 if (days) {
                     var date = new Date();
                     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                     expires = "; expires=" + date.toUTCString();
                 }
-                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+                // Adiciona o identificador do produto ao valor do cookie
+                var cookieValue = product + "=" + (value || "");
+                document.cookie = name + "=" + cookieValue + expires + "; path=/";
             }
 
             // Função para obter um cookie
@@ -123,11 +125,11 @@
                 return getCookie('purchaseRegistered') === 'true';
             }
 
-            // Função para registrar a compra
+            // Função para registrar a compra e armazenar o produto no cookie
             function registerPurchase(product) {
                 if (!hasPurchaseBeenRegistered()) {
                     fbq('track', 'Purchase');
-                    setCookie('purchaseRegistered', 'true', 365); // Válido por 1 ano
+                    setCookieWithProduct('purchaseRegistered', product, 'true', 365); // Válido por 1 ano
                 }
             }
 
