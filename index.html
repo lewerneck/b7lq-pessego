@@ -120,17 +120,22 @@
                 return null;
             }
 
-            // Função para verificar se o evento de compra já foi registrado
-            function hasPurchaseBeenRegistered() {
-                return getCookie('purchaseRegistered') === 'true';
+            // Função para verificar se o evento de compra já foi registrado para um produto específico
+            function hasPurchaseBeenRegisteredForProduct(product) {
+                return getCookie(product) === 'true';
+            }
+
+            // Função para registrar a compra apenas se ainda não foi registrada para o produto
+            function registerPurchaseIfNotRegistered(product) {
+                if (!hasPurchaseBeenRegisteredForProduct(product)) {
+                    fbq('track', 'Purchase');
+                    setCookieWithProduct('purchaseRegistered', product, 'true', 365); // Válido por 1 ano
+                }
             }
 
             // Função para registrar a compra e armazenar o produto no cookie
             function registerPurchase(product) {
-                if (!hasPurchaseBeenRegistered()) {
-                    fbq('track', 'Purchase');
-                    setCookieWithProduct('purchaseRegistered', product, 'true', 365); // Válido por 1 ano
-                }
+                registerPurchaseIfNotRegistered(product);
             }
 
             // Identificador do produto atual
